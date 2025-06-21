@@ -49,7 +49,7 @@ const donuts = []
 let madnessMode = false;
 
 const torusParams = {
-  radius: 1,
+  radius: 0.5,
   tube: 0.1,
   radialSegments: 32,
   paused : false,
