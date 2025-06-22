@@ -8,7 +8,7 @@ import gsap from 'gsap'
 import { Pane } from 'tweakpane'
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
 
-const pane = new Pane({ title: 'GUI Manupulation' });
+const pane = new Pane({ title: 'GUI Manipulation', expanded:false });
 
 // pane.registerPlugin(EssentialsPlugin) 
 // const gui = new GUI()
