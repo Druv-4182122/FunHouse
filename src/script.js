@@ -1,16 +1,25 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import GUI from 'lil-gui'
+// import GUI from 'lil-gui'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry} from 'three/examples/jsm/geometries/TextGeometry.js'
 import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader.js'
 import gsap from 'gsap'
+import { Pane } from 'tweakpane'
+import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
 
+const pane = new Pane({ title: 'GUI Manupulation' });
 
+// pane.registerPlugin(EssentialsPlugin) 
+// const gui = new GUI()
+// const donutfolder = gui.addFolder('Donut Configuration')
+// donutfolder.close()
 
-const gui = new GUI()
-const donutfolder = gui.addFolder('Donut Configuration')
-donutfolder.close()
+const donutFolder = pane.addFolder({
+  title: 'Donut Configuration',
+  expanded: false,
+})
+
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -46,7 +55,7 @@ const textureLoader = new THREE.TextureLoader()
 // const donutcolorhistory = []
 
 const donuts = []
-let madnessMode = false;
+
 
 const torusParams = {
   radius: 0.5,
@@ -54,11 +63,12 @@ const torusParams = {
   radialSegments: 32,
   paused : false,
   controls: true,
+  madnessMode: false,
   tubularSegments: 64,
   arc: Math.PI * 2,
-  madness: () => {
-    madnessMode = !madnessMode;
-    },
+//   madness: () => {
+//     this.madnessMode = !this.madnessMode;
+//     },
 
   update: function() {
     donuts.forEach(donut => {
@@ -98,52 +108,130 @@ const torusParams = {
 
 };
 
-donutfolder.add(torusParams, 'radius', 0.1, 1).step(0.01).onChange(() => torusParams.update())
-donutfolder.add(torusParams, 'tube', 0.05, 0.5).step(0.01).onChange(() => torusParams.update())
-donutfolder.add(torusParams, 'radialSegments', 3, 64).step(1).onChange(() => torusParams.update())
-donutfolder.add(torusParams, 'tubularSegments', 3, 128).step(1).onChange(() => torusParams.update())
-donutfolder.add(torusParams, 'arc', 0.1, Math.PI * 2).onChange(() => torusParams.update())
-donutfolder.add(torusParams, 'randomize').name('Randomize Position and Rotation')
-donutfolder.add(torusParams, 'coolers').name('Randomize Color')
-donutfolder.add(torusParams, 'paused')
-    .onChange((value) => {
-        if (value) {
-            clock.stop() 
+// donutfolder.add(torusParams, 'radius', 0.1, 1).step(0.01).onChange(() => torusParams.update())
+// donutfolder.add(torusParams, 'tube', 0.05, 0.5).step(0.01).onChange(() => torusParams.update())
+// donutfolder.add(torusParams, 'radialSegments', 3, 64).step(1).onChange(() => torusParams.update())
+// donutfolder.add(torusParams, 'tubularSegments', 3, 128).step(1).onChange(() => torusParams.update())
+// donutfolder.add(torusParams, 'arc', 0.1, Math.PI * 2).onChange(() => torusParams.update())
+
+donutFolder.addBinding(torusParams, 'radius', { min: 0.1, max: 1, step: 0.01 })
+    .on('change', () => {
+        torusParams.update()
+    });
+donutFolder.addBinding(torusParams, 'tube', { min: 0.05, max: 0.5, step: 0.01 })
+    .on('change', () => {
+        torusParams.update()
+    });
+donutFolder.addBinding(torusParams, 'radialSegments', { min: 3, max: 64, step: 1 })
+    .on('change', () => {
+        torusParams.update()
+    });
+donutFolder.addBinding(torusParams, 'tubularSegments', { min: 3, max: 128, step: 1 })
+    .on('change', () => {
+        torusParams.update()
+    });
+donutFolder.addBinding(torusParams, 'arc', { min: 0.1, max: Math.PI * 2 })
+    .on('change', () => {
+        torusParams.update()
+    });
+
+// donutFolder.addBinding(torusParams, 'radius', { min: 0.1, max: 1 }).on('change', torusParams.update)
+// donutFolder.addBinding(torusParams, 'tube', { min: 0.01, max: 0.4 }).on('change', torusParams.update)
+// donutFolder.addBinding(torusParams, 'radialSegments', { min: 2, max: 32, step: 1 }).on('change', torusParams.update)
+// donutFolder.addBinding(torusParams, 'tubularSegments', { min: 3, max: 64, step: 1 }).on('change', torusParams.update)
+// donutFolder.addBinding(torusParams, 'arc', { min: 0.1, max: Math.PI * 2 }).on('change', torusParams.update)
+
+// donutfolder.add(torusParams, 'randomize').name('Randomize Position and Rotation')
+// donutfolder.add(torusParams, 'coolers').name('Randomize Color')
+// donutfolder.add(torusParams, 'madness').name('Madness Mode')
+
+donutFolder.addButton({ title: 'Randomize Donuts' }).on('click', () => {
+  torusParams.randomize()
+})
+
+donutFolder.addButton({ title: 'Coolers' }).on('click', () => {
+  torusParams.coolers()
+})
+
+donutFolder.addBinding(torusParams, 'madnessMode', { label: 'Madness Mode' })
+    // .on('change', (ev) => {
+    //     torusParams.madness()
+    // })
+
+// donutfolder.add(torusParams, 'paused')
+//     .onChange((value) => {
+//         if (value) {
+//             clock.stop() 
+//         } else {
+//             clock.start()
+//         }
+//     })
+//     .name('Pause Animation')
+
+donutFolder.addBinding(torusParams, 'paused', { label: 'Pause Animation' })
+    .on('change', (ev) => {
+        if (ev.value) {
+            clock.stop && clock.stop(); // Only call if method exists
         } else {
-            clock.start()
+            clock.start && clock.start();
         }
-    })
-    .name('Pause Animation')
+    });
+
 const donutSettings = { shininess: 100,
     flatShading: false,
     wireframe: false
  }
-donutfolder.add(donutSettings, 'shininess', 0, 200).name('Shininess')
-    .onChange(value => {
+// donutfolder.add(donutSettings, 'shininess', 0, 200).name('Shininess')
+//     .onChange(value => {
+//         materials.forEach(mat => {
+//             mat.shininess = value
+//         })
+//     })
+// donutfolder.add(donutSettings, 'wireframe').name('Wireframe')
+// .onChange(value => {
+//     materials.forEach(mat => {
+//         mat.wireframe = value
+//     })
+// })
+// donutfolder.add(donutSettings, 'flatShading').name('Flat Shading')
+// .onChange(value => {
+//     materials.forEach(mat => {
+//         mat.flatShading = value
+//     })
+// })
+// donutfolder.add(torusParams, 'controls')
+//     .onChange((value) => {
+//         // Toggle orbit controls
+//         controls.enabled = value
+//     })
+//     .name('Orbit Controls')
+
+donutFolder.addBinding(donutSettings, 'shininess', { min: 0, max: 100 })
+    .on('change', (ev) => {
         materials.forEach(mat => {
-            mat.shininess = value
+            mat.shininess = ev.value
         })
     })
-donutfolder.add(donutSettings, 'wireframe').name('Wireframe')
-.onChange(value => {
-    materials.forEach(mat => {
-        mat.wireframe = value
-    })
-})
-donutfolder.add(donutSettings, 'flatShading').name('Flat Shading')
-.onChange(value => {
-    materials.forEach(mat => {
-        mat.flatShading = value
-    })
-})
-donutfolder.add(torusParams, 'controls')
-    .onChange((value) => {
-        // Toggle orbit controls
-        controls.enabled = value
-    })
-    .name('Orbit Controls')
-// donutfolder.add(torusParams, 'madness').name('Madness Mode')
 
+donutFolder.addBinding(donutSettings, 'wireframe')
+    .on('change', (ev) => {
+        materials.forEach(mat => {
+        mat.wireframe = ev.value
+        })
+    })
+
+donutFolder.addBinding(donutSettings, 'flatShading')
+    .on('change', (ev) => {
+        materials.forEach(mat => {
+            mat.flatShading = ev.value
+            mat.needsUpdate = true
+        })
+    })
+
+donutFolder.addBinding(torusParams, 'controls')
+    .on('change', (ev) => {
+        controls.enabled = ev.value
+    })
 
 const donutgeometry = new THREE.TorusGeometry(
     torusParams.radius,
@@ -161,6 +249,7 @@ for(let i = 0; i < 100; i++) {
     material.shininess = 100
     material.specular = new THREE.Color(0x1188ff)
     material.color = new THREE.Color(Math.random(), Math.random(), Math.random())
+    
     const donut = new THREE.Mesh(donutgeometry, material)
     scene.add(donut)
     donut.position.x = (Math.random() - 0.5) * 10
@@ -292,6 +381,15 @@ const tick = () =>
                 donut.scale.set(scale, scale, scale)
                 }
         })
+        if(torusParams.madnessMode) {
+            donuts.forEach((donut, i) => {
+                donut.position.x = (Math.random() - 0.5) * 10
+                donut.position.y = (Math.random() - 0.5) * 10
+                donut.position.z = (Math.random() - 0.5) * 10
+                donut.rotation.x = Math.random() * Math.PI
+                donut.rotation.y = Math.random() * Math.PI 
+            })
+        }
 
     }
     renderer.render(scene, camera)
