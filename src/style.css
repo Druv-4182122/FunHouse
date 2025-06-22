@@ -18,14 +18,14 @@ body
     outline: none;
 }
 .tp-dfwv{
-    width: 450px !important;
+    width: 400px !important;
     
     /* font-size: 50px !important; */
 }
 .tp-lblv,
 .tp-txtv,
 .tp-rotv {
-    font-size: 1rem !important;
+    /* font-size: 1rem !important; */
     background-color: #24562b !important;
     color: white !important;
     font-family :Arial, Helvetica, sans-serif !important;
@@ -37,15 +37,16 @@ body
     text-align: left !important;
     background-color: #486a47 !important;
     font-weight: bold !important;
+    font-size: 13px !important;
 }
+
 .tp-rotv_b {
     margin: 0 !important;
-    padding-left: 0.5rem !important;
+    padding-left: 6px !important;
     position: relative !important;
-    
 }
 .tp-btnv_t {
-    font-size: 20px !important;
+    font-size: 16px !important;
     font-family :Arial, Helvetica, sans-serif !important;
 }
 .tp-btnv_b{
@@ -55,7 +56,7 @@ body
     justify-content: center !important;
     align-items: center !important;
     padding: 15px !important;    
-    font-size: medium;
+    /* font-size: medium; */
     left: 50px !important;
     margin: 0 auto!important;    
     width: 65% !important;             
@@ -71,10 +72,10 @@ body
     background-color: #357a38 !important; /* Optional: hover effect */
 }
 .tp-sldv_t {
-    left: 30px !important;
+    left: 20px !important;
     position: relative !important; 
-    width: 7.5rem !important;
-    top: 10px !important;
+    width: 6.5rem !important;
+    top: 7px !important;
 }
 .tp-sldv_t::before {
     
@@ -92,13 +93,15 @@ body
     height: 2rem !important;
     position:relative !important; 
     text-align: center !important;
-    left: 65px !important;
+    left: 58px !important;
+    font-size: 14px !important;
+    border-radius: 90px !important; 
     color: white !important;
     top: 5px !important;
 }
 .tp-txtv_k {
     /* display: inline-block !important; */
-    margin-left: 44px !important;
+    margin-left: 35px !important;
     top: 5px !important;
 }
 .tp-txtv_k::before {
@@ -113,13 +116,14 @@ body
     /* color: white !important; */
 }
 .tp-lblv {
-    width: 325px !important;
+    width: 300px !important;
 
 }
 .tp-lblv_l {
     text-align: center !important;
-    padding: 0.5rem 0 !important;
-    font-size: 18px !important;
+    padding: 5px 0 !important;
+    border-radius: 90px !important; 
+    font-size: 15px !important;
     font-family :Arial, Helvetica, sans-serif !important;
     /* margin: 0px 0px !important; */
 }
@@ -130,7 +134,7 @@ body
     position: relative !important;
     margin-left: 122px !important;
     margin-top: 10px !important;
-    height: 25px !important;
-    width: 25px !important;
+    height: 20px !important;
+    width: 20px !important;
     
 }

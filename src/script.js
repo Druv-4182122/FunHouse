@@ -114,23 +114,23 @@ const torusParams = {
 // donutfolder.add(torusParams, 'tubularSegments', 3, 128).step(1).onChange(() => torusParams.update())
 // donutfolder.add(torusParams, 'arc', 0.1, Math.PI * 2).onChange(() => torusParams.update())
 
-donutFolder.addBinding(torusParams, 'radius', { min: 0.1, max: 1, step: 0.01 })
+donutFolder.addBinding(torusParams, 'radius', { min: 0.1, max: 1, step: 0.01, label: 'Radius' })
     .on('change', () => {
         torusParams.update()
     });
-donutFolder.addBinding(torusParams, 'tube', { min: 0.05, max: 0.5, step: 0.01 })
+donutFolder.addBinding(torusParams, 'tube', { min: 0.05, max: 0.5, step: 0.01, label: 'Tube' })
     .on('change', () => {
         torusParams.update()
     });
-donutFolder.addBinding(torusParams, 'radialSegments', { min: 3, max: 64, step: 1 })
+donutFolder.addBinding(torusParams, 'radialSegments', { min: 3, max: 64, step: 1, label: 'Radial Segments' })
     .on('change', () => {
         torusParams.update()
     });
-donutFolder.addBinding(torusParams, 'tubularSegments', { min: 3, max: 128, step: 1 })
+donutFolder.addBinding(torusParams, 'tubularSegments', { min: 3, max: 128, step: 1, label: 'Tubular Segments' })
     .on('change', () => {
         torusParams.update()
     });
-donutFolder.addBinding(torusParams, 'arc', { min: 0.1, max: Math.PI * 2 })
+donutFolder.addBinding(torusParams, 'arc', { min: 0.1, max: Math.PI * 2, step: 0.01, label: 'Arc' })
     .on('change', () => {
         torusParams.update()
     });
@@ -149,7 +149,7 @@ donutFolder.addButton({ title: 'Randomize Donuts' }).on('click', () => {
   torusParams.randomize()
 })
 
-donutFolder.addButton({ title: 'Coolers' }).on('click', () => {
+donutFolder.addButton({ title: 'Randomize Color' }).on('click', () => {
   torusParams.coolers()
 })
 
@@ -206,21 +206,21 @@ const donutSettings = { shininess: 100,
 //     })
 //     .name('Orbit Controls')
 
-donutFolder.addBinding(donutSettings, 'shininess', { min: 0, max: 100 })
+donutFolder.addBinding(donutSettings, 'shininess', { min: 0, max: 100, step: 1, label: 'Shininess' })
     .on('change', (ev) => {
         materials.forEach(mat => {
             mat.shininess = ev.value
         })
     })
 
-donutFolder.addBinding(donutSettings, 'wireframe')
+donutFolder.addBinding(donutSettings, 'wireframe', { label: 'Wireframe' })
     .on('change', (ev) => {
         materials.forEach(mat => {
         mat.wireframe = ev.value
         })
     })
 
-donutFolder.addBinding(donutSettings, 'flatShading')
+donutFolder.addBinding(donutSettings, 'flatShading', { label: 'Flat Shading' })
     .on('change', (ev) => {
         materials.forEach(mat => {
             mat.flatShading = ev.value
@@ -228,7 +228,7 @@ donutFolder.addBinding(donutSettings, 'flatShading')
         })
     })
 
-donutFolder.addBinding(torusParams, 'controls')
+donutFolder.addBinding(torusParams, 'controls', { label: 'Orbit Controls' })
     .on('change', (ev) => {
         controls.enabled = ev.value
     })
